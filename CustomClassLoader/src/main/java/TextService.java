@@ -9,7 +9,6 @@ public class TextService {
     }
 
     public String exception(String text) throws RuntimeException {
-        //TODO throw your custom exception
-        return text;
+        throw new DoingHomeworkAtNightException(text);
     }
 }
