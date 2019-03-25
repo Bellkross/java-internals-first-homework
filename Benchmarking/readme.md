@@ -3,8 +3,15 @@ Author: Kyrylo Vasylenko\
 Teacher: Andrii Rodionov
 
 ## Results
+I. [Methods with\without stack trace benchmarking](first)
 
-### Methods with\without stack trace benchmarking
+II. [Streams vs loops](second)
+
+III. [Parallel streams vs streams](third)
+
+VI. [Final summary](forth)
+
+### I. [Methods with\without stack trace benchmarking](#first)
 
 #### 1. With StackTrace operations per milliseconds
 
@@ -31,7 +38,8 @@ Teacher: Andrii Rodionov
 
 - Exceptions without stack trace more efficient in ~1.8 times than with stack trace.
 ___
-### Streams vs loops
+
+### II. [Streams vs loops](#second)
 
 #### 1. Sum of int array
 
@@ -103,3 +111,76 @@ ___
     Streams.integerForArraySum      thrpt    5   199,142 ±  91,670  ops/ms
     Streams.integerForEachArraySum  thrpt    5   286,267 ±   2,410  ops/ms
     Streams.integerStreamArraySum   thrpt    5   182,526 ±  74,099  ops/ms
+    
+___
+### III. [Parallel streams vs streams](#third)
+
+#### 1. Iterative sum example
+
+- Stream
+
+
+    Result "streams.ParallelStreams.parallelIntStreamSum":
+    56,934 ±(99.9%) 1,721 ops/ms [Average]
+    
+- Parallel Stream
+
+
+    Result "streams.ParallelStreams.intStreamSum":
+    394,812 ±(99.9%) 22,945 ops/ms [Average]
+
+#### Example summary
+- Parallel stream more efficient in ~ 13.5 times than Stream
+
+#### 2. Map and Sum example
+
+- Stream
+
+
+    Result "streams.ParallelStreams.intStreamMapAndSum":
+    195,068 ±(99.9%) 33,124 ops/ms [Average]
+
+- Parallel Stream
+
+
+    Result "streams.ParallelStreams.intParallelStreamMapAndSum":
+      28,152 ±(99.9%) 4,026 ops/ms [Average]
+
+#### Example summary
+- Stream more efficient in ~ 8 times than parallel stream
+
+#### 3. Array sum example
+
+- Parallel Stream
+
+
+    Result "streams.ParallelStreams.parallelIntegerStreamArraySum":
+    3,315 ±(99.9%) 0,732 ops/ms [Average]
+
+- Stream
+
+
+    Result "streams.ParallelStreams.integerStreamArraySum":
+    2,043 ±(99.9%) 0,278 ops/ms [Average]
+    
+#### Example summary
+- Parallel stream more efficient in ~ 3.5 times than Stream
+
+### Summary
+
+    Benchmark                                       Mode  Cnt    Score    Error   Units
+    ParallelStreams.intParallelStreamMapAndSum     thrpt    5   28,152 ±  4,026  ops/ms
+    ParallelStreams.intStreamMapAndSum             thrpt    5  195,068 ± 33,124  ops/ms
+    ParallelStreams.intStreamSum                   thrpt    5  394,812 ± 22,945  ops/ms
+    ParallelStreams.integerStreamArraySum          thrpt    5    2,043 ±  0,278  ops/ms
+    ParallelStreams.parallelIntStreamSum           thrpt    5   56,934 ±  1,721  ops/ms
+    ParallelStreams.parallelIntegerStreamArraySum  thrpt    5    3,315 ±  0,732  ops/ms
+___
+# [Final summary](#forth)
+
+- Methods without stack trace faster than methods with them
+- In most cases if for loop faster than for-each and they both faster than Stream API.
+But sometimes we've some optimisations and stream API even faster than for-each array and near to for array.
+(For example: 3. Sum of Integer array)
+- Parallel streams faster than plain streams if we could parallel our computation.
+If we use parallel streams incorrect, they will be even slower than plain streams.
