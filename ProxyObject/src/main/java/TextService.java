@@ -1,14 +1,6 @@
-public class TextService {
+public interface TextService {
 
-    public String staticText() {
-        return "Some static text";
-    }
-
-    public String variable(String variable) {
-        return variable;
-    }
-
-    public String exception(String text) throws RuntimeException {
-        throw new DoingHomeworkAtNightException(text);
-    }
+    String staticText();
+    String variable(String variable);
+    String exception(String text) throws RuntimeException;
 }
